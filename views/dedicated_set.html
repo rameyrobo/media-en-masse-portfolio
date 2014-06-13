@@ -1,0 +1,22 @@
+{% set pagetype = "set" %}
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="set">
+  <div class="left side infobox">
+    <img src="/{{ user }}/images/square/medium/{{ photoset.primary }}.jpg">
+    <h2>{{ photoset.title._content }}</h2>
+    <p>{{ photoset.description._content | nlbr }}</p>
+  </div>
+
+  <div class="photos">
+  {% set photolist = photoset.photos.slice() %}
+  {% for id in photolist.slice(start, end) %}
+    {% set photo = photos[id] %}
+    {% include "blocks/content/stream_photo.html" %}
+  {% endfor %}
+  {% include "blocks/pages.html" %}
+  </div>
+
+</div>
+{% endblock %}

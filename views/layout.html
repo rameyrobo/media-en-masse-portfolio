@@ -1,0 +1,16 @@
+<!doctype html>
+<html{% if pagetype %} data-type="{{ pagetype }}"{% endif %}>
+  <head>
+    <meta charset="utf-8">
+    <title>{% if user %}{{ user }}'s photographs{% else %}FlickrMirror{% endif %}</title>
+    <link rel="stylesheet" href="/stylesheets/screen.css">
+    {% if not notfound %}
+    {% include "blocks/opengraph.html" %}
+    {% endif %}
+  </head>
+  <body>
+    {% include "blocks/header.html" %}
+   	{% block body %}{% endblock %}
+    {% include "blocks/footer.html" %}
+  </body>
+</html>

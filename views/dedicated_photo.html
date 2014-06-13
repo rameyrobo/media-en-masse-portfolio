@@ -1,0 +1,74 @@
+{% set pagetype = "photo" %}
+{% extends "layout.html" %}
+{% block body %}
+{% set file = photo.id + "." + photo.originalformat %}
+  <div class="content">
+    <div class="photo">
+      <h1>{{ photo.title._content }}</h1>
+      <figure>
+        <meta property="og:image" content="/{{ user }}/images/{{ photo.viewsize }}/{{ photo.id }}.{%
+          if photo.viewsize == "original"
+        %}{{ photo.originalformat }}{%
+          else
+        %}jpg{%
+          endif
+        %}"/>
+        <a href="/{{ user }}/photos/{{ photo.id }}/lightbox"><img src="/{{ user }}/images/{{ photo.viewsize }}/{{ photo.id }}.{%
+          if photo.viewsize == "original"
+        %}{{ photo.originalformat }}{%
+          else
+        %}jpg{%
+          endif
+        %}"></a>
+        <figcaption>{{ photo.dates.taken }}</figcaption>
+      </figure>
+
+      {% include "blocks/photolinks.html" %}
+
+      <section class="description">
+        <p>{{ photo.description._content | nlbr }}</p>
+      </section>
+
+      {% if photo.comments %}
+      <section class="comments">
+        {% for comment in photo.comments %}
+        {% include "blocks/comment.html" %}
+        {% endfor %}
+      </section>
+      {% endif %}
+
+      {% include "blocks/license.html" %}
+    </div>
+
+    <div class="navs">
+      <!-- photo stream -->
+      <script src="/js/streamnavigation.js"></script>
+      <div class="photostream">
+        {% set title = "photostream" %}
+        {% set prev = photo.prev %}
+        {% set next = photo.next %}
+        {% include "blocks/streamnav.html" %}
+      </div>
+
+      <!-- sets -->
+      <div class="sets">
+      {% for setObj in photo.sets %}
+        {% set title = photosets[setObj.id].title._content %}
+        {% set prev = setObj.next %}
+        {% set next = setObj.prev %}
+        {% set setid = setObj.id %}
+        {% include "blocks/streamnav.html" %}
+      {% endfor %}
+      </div>
+
+      <!-- pools -->
+      {% for pool in photo.contexts.pool %}
+      <div class="pool">
+        <span>Part of the <a href="http://www.flickr.com{{ pool.url }}">{{ pool.title }}</a> pool</span>
+        <a href="http://www.flickr.com{{ pool.url }}"><img src="http://farm{{ pool.iconfarm }}.staticflickr.com/{{ pool.iconserver }}/buddyicons/{{ pool.id }}.jpg"></a>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+{% endblock %}

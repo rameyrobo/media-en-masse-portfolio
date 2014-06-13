@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block body %}
+
+  <div class="content">
+  <h1>Registered users on this FlickrMirror</h2>
+
+  {% for user in users %}
+  {% include "blocks/content/user_snippet.html" %}
+  {% endfor %}
+
+  </div>
+
+  {# <script src="/js/photodescriptions.js"></script> #}
+{% endblock %}
